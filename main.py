@@ -1,48 +1,50 @@
-# main.py
 import pygame
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, WHITE, BLACK
-from game_1 import game_1
-from game_2 import game_2
-
+from color import game_loop_color
+from shape import game_loop_shape
 
 # Inisialisasi Pygame
 pygame.init()
 
-# Menyiapkan layar
+# Dimensi Layar
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Mini Game Collection")
+pygame.display.set_caption("Catch the Shape and Color")
 
-font = pygame.font.Font(None, 48)
+# Warna
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+font = pygame.font.Font(None, 36)
 
-def show_menu():
-    screen.fill(WHITE)
-    menu_title = font.render("Mini Game Collection", True, BLACK)
-    option_1 = font.render("1. Catch the Fruit", True, BLACK)
-    option_2 = font.render("2. T-Rex", True, BLACK)
-    quit_text = font.render("Q. Quit", True, BLACK)
+# Fungsi menu utama
+def main_menu():
+    while True:
+        screen.fill(WHITE)
+        menu_text = font.render("Choose a Mode:", True, BLACK)
+        color_mode = font.render("1. Catch by Color", True, BLACK)
+        shape_mode = font.render("2. Catch by Shape", True, BLACK)
+        quit_text = font.render("Q. Quit Game", True, BLACK)
 
-    screen.blit(menu_title, (SCREEN_WIDTH // 2 - menu_title.get_width() // 2, 50))
-    screen.blit(option_1, (SCREEN_WIDTH // 2 - option_1.get_width() // 2, 150))
-    screen.blit(option_2, (SCREEN_WIDTH // 2 - option_2.get_width() // 2, 200))
-    screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, 350))
+        screen.blit(menu_text, (SCREEN_WIDTH // 2 - menu_text.get_width() // 2, 100))
+        screen.blit(color_mode, (SCREEN_WIDTH // 2 - color_mode.get_width() // 2, 200))
+        screen.blit(shape_mode, (SCREEN_WIDTH // 2 - shape_mode.get_width() // 2, 300))
+        screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, 400))
 
-    pygame.display.flip()
+        pygame.display.flip()
 
-def run_game():
-    running = True
-    while running:
-        show_menu()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                return
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:   
-                    game_1(screen)  # Memanggil game 1
+                if event.key == pygame.K_1:
+                    game_loop_color()
                 elif event.key == pygame.K_2:
-                    game_2(screen)  # Memanggil game 2
+                    game_loop_shape()
                 elif event.key == pygame.K_q:
-                    running = False
-    pygame.quit()
+                    pygame.quit()
+                    return
 
+# Jalankan game
 if __name__ == "__main__":
-    run_game()
+    main_menu()
